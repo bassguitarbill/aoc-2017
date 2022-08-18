@@ -15,30 +15,32 @@ fn twisty_trampolines_phase_2(input: &String) -> isize {
     twisty_trampolines(input, step_phase_2)
 }
 
-fn twisty_trampolines(input: &String, step: fn(Vec<isize>, usize, isize) -> (Vec<isize>, usize, isize)) -> isize {
+fn twisty_trampolines(input: &String, step: fn(&mut Vec<isize>, &mut usize, &mut isize)) -> isize {
     let mut numbers: Vec<isize> = input.lines().map(|l| l.parse::<isize>().unwrap()).collect();
     let mut count = 0;
     let mut index: isize = 0;
     while index >= 0 && index < numbers.len() as isize {
-        (numbers, count, index) = step(numbers, count, index);
+        step(&mut numbers, &mut count, &mut index);
     }
     count as isize
 }
 
-fn step_phase_1(mut numbers: Vec<isize>, count: usize, index: isize) -> (Vec<isize>, usize, isize) {
-    let target = index + numbers[index as usize];
-    numbers[index as usize] += 1;
-    (numbers, count + 1, target)
+fn step_phase_1(numbers: &mut Vec<isize>, count: &mut usize, index: &mut isize) {
+    let target = *index + numbers[*index as usize];
+    numbers[*index as usize] += 1;
+    *count = *count + 1;
+    *index = target;
 }
 
-fn step_phase_2(mut numbers: Vec<isize>, count: usize, index: isize) -> (Vec<isize>, usize, isize) {
-    let target = index + numbers[index as usize];
-    if numbers[index as usize] >= 3 {
-        numbers[index as usize] -= 1;
+fn step_phase_2(numbers: &mut Vec<isize>, count: &mut usize, index: &mut isize) {
+    let target = *index + numbers[*index as usize];
+    if numbers[*index as usize] >= 3 {
+        numbers[*index as usize] -= 1;
     } else {
-        numbers[index as usize] += 1;
+        numbers[*index as usize] += 1;
     }
-    (numbers, count + 1, target)
+    *count = *count + 1;
+    *index = target;
 }
 
 #[test]
