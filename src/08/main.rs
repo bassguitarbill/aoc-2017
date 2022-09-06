@@ -32,7 +32,7 @@ fn registers_phase_2(input: &String) -> i32 {
     max
 }
 
-fn apply_instruction<'a, 'b: 'a>(registers: &mut HashMap<String, i32>, instruction: &'a Instruction) -> i32 {
+fn apply_instruction(registers: &mut HashMap<String, i32>, instruction: &Instruction) -> i32 {
     if evaluate_condition(registers, &instruction.condition) {
         let value = match instruction.operation {
             Operation::Inc =>  instruction.amount,
@@ -44,7 +44,7 @@ fn apply_instruction<'a, 'b: 'a>(registers: &mut HashMap<String, i32>, instructi
     } else { 0 }
 }
 
-fn evaluate_condition<'a, 'b: 'a>(registers: &mut HashMap<String, i32>, condition: &'a Condition) -> bool {
+fn evaluate_condition(registers: &mut HashMap<String, i32>, condition: &Condition) -> bool {
     let left = match &condition.left {
         RegisterOrConstant::Register(Register(left_name)) => get_or_init(registers, &left_name),
         RegisterOrConstant::Constant(value) => *value,
@@ -63,7 +63,7 @@ fn evaluate_condition<'a, 'b: 'a>(registers: &mut HashMap<String, i32>, conditio
     }
 }
 
-fn get_or_init<'a, 'b: 'a>(registers: &mut HashMap<String, i32>, key: &'a str) -> i32 {
+fn get_or_init(registers: &mut HashMap<String, i32>, key: &str) -> i32 {
     match registers.get(key) {
         Some(val) => *val,
         None => {
