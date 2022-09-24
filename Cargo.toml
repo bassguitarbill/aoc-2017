@@ -40,3 +40,11 @@ path = "src/07/main.rs"
 [[bin]]
 name = "08"
 path = "src/08/main.rs"
+
+[[bin]]
+name = "09"
+path = "src/09/main.rs"
+
+[[bin]]
+name = "12"
+path = "src/12/main.rs"
